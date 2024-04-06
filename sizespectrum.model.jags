@@ -1,0 +1,21 @@
+model {
+  
+  # size bin follows a multinomial distribution
+  catch[1:N] ~ dmulti(p[1:N], catch_total)
+  
+  # calculate probability of fish belonging to each size bin
+  for (i in 1:N) {
+  p_bin[i] <- (q[i]*(lower[i]^(-1 * alpha) - upper[i]^(-1 * alpha)))
+  }
+  
+  # obtain total value to standardize the probabilities
+  p_total <- sum(p_bin[])
+  
+  # standardization of probabilities
+  for (j in 1:N) {
+  p[j] <- (q[j]*(lower[j]^(-1 * alpha) - upper[j]^(-1 * alpha)))/p_total
+  }
+  
+  alpha ~ dunif(0,50)
+
+  }
